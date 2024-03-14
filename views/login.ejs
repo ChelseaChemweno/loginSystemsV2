@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+    <title>Login Page</title>
+  </head>
+  <body>
+    <%- include("_nav.ejs") %>
+    <h1>Login</h1>
+
+    <form action="">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div>
+        <label for=" pass"> Password</label>
+        <input type="password" name="pass" id="pass" />
+      </div>
+      <div>
+        <input type="submit" value="login" />
+      </div>
+    </form>
+  </body>
+</html>

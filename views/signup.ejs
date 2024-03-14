@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/signup.css" />
+    <title>Sign Up Page</title>
+  </head>
+  <body>
+    <%- include ("_nav.ejs") %>
+    <h1>Sign Up</h1>
+    <h3>Sign Up Form</h3>
+    <form action="https://localhost:5000/signup" method="post">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" name="fullname" id="fullname" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" name="confirm-password" id="confirm-password" />
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Sign Up" />
+      </div>
+    </form>
+  </body>
+</html>
