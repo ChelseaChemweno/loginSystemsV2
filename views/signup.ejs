@@ -8,9 +8,9 @@
   </head>
   <body>
     <%- include ("_nav.ejs") %>
-    <h1>Sign Up</h1>
-    <h3>Sign Up Form</h3>
-    <form action="https://localhost:5000/signup" method="post">
+
+    <h3>SignUp</h3>
+    <form action="http://localhost:5000/signup" method="post">
       <div class="form-group">
         <label for="fullname">Full Name</label>
         <input type="text" name="fullname" id="fullname" />
@@ -24,12 +24,20 @@
         <input type="date" name="dob" id="dob" />
       </div>
       <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" name="phone" id="phone" value="+254" />
+      </div>
+      <div class="form-group">
         <label for="password">Password</label>
         <input type="password" name="password" id="password" />
       </div>
       <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" name="confirm-password" id="confirm-password" />
+        <label for="confirm_password">Confirm Password</label>
+        <input
+          type="confirm_password"
+          name="confirm_password"
+          id="confirm_password"
+        />
       </div>
       <div class="form-group">
         <input type="submit" value="Sign Up" />
