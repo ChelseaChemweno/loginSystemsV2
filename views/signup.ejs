@@ -4,6 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="stylesheets/signup.css" />
+    <!-- Truthy and falsey values in js
+    examples of truthy values non zero numbers , functions,non empty strings ,arrays and objects 
+  
+  while falsy values false itself , the number zero ,empty string -->
+    <% if( locals.error) {%>   <form action="http://localhost:5000/signup" method="post">
+      <p style="color:orange;"><%=errMessage %> </p>
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" name="fullname" id="fullname" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" name="phone" id="phone" value="+254" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input
+          type="confirm_password"
+          name="confirm_password"
+          id="confirm_password"
+        />
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Sign Up" />
+      </div>
+    </form <% } else{%>}   <form action="http://localhost:5000/signup" method="post">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" name="fullname" id="fullname" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" name="phone" id="phone" value="+254" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input
+          type="confirm_password"
+          name="confirm_password"
+          id="confirm_password"
+        />
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Sign Up" />
+      </div>
+    </form<%}%>
     <title>Sign Up Page</title>
   </head>
   <body>

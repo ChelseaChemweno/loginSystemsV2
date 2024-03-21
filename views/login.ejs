@@ -11,7 +11,10 @@
 
     <div class="container">
       <h3>Login</h3>
-      <form action="">
+      <% if (locals.message){ %>
+      <p style="color: rgb(194, 233, 21)"><%= message %></p>
+      <%}%>
+      <form action="http://localhost:5000/login" method="POST">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" name="email" id="email" required />

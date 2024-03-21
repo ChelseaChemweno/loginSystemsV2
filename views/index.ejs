@@ -7,7 +7,11 @@
     <title>Login System</title>
   </head>
   <body>
-    <%- include("_nav.ejs") %>
+    <% if (locals.user){ %>
+    <h1>Welcome <%=user.fullname %></h1>
+    <%} else { %>
+    <h1>Welcome Guest</h1>
+    <% } %> <%- include("_nav.ejs") %>
     <h1>Web Authentication and Security</h1>
     <p>
       "Master the Art of Secure Web Authentication: Learn Fundamentals & Best

@@ -2,6 +2,9 @@ const express = require("express");
 const mysql = require("mysql");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const { log } = require("console");
 // configuration
 
 const myConnection = mysql.createConnection({
@@ -34,6 +37,7 @@ myConnection.query(
 const app = express();
 app.get("/", (req, res) => {
   console.log(req.baseUrl);
+  console.log(req.cookies);
   res.render("index.ejs");
 });
 //app.use is used to run middleware -functions -these are functions that run in every request
@@ -44,12 +48,74 @@ app.get("/", (req, res) => {
 //Http is stateless it implies that every request -response cycle is completely indepenedent, even if they are from the same device
 app.use(express.urlencoded({ extended: false })); //body paraser converts the body of the incoming requests into javascript object
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(
+  session({
+    secret: "jfdjks",
+    resave: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 6000 },
+  })
+);
+app.use(cookieParser());
+app.use((re, res, next) => {
+  const protectedRoutes = [
+    "/protectecRouteOne",
+    "/protectecRouteTwo",
+    "/profile",
+  ];
+  if (req.session && req.session.user) {
+    req.locals.user = req.session.user;
+    next();
+  } else if (protectedRoutes.includes(req.path)) {
+    res.status(201).send("login to access this resourse");
+  } else {
+    //public route-- , signup, landing,login
+    next();
+  }
+});
+app.post("/collectcookie"); // we can collect data on how much time the user spent on the webiste
 app.get("/login", (req, res) => {
+  if (req.query.signupSuccess) {
+    res.render("login.ejs", { message: "Signup succesfull!You can now login" });
+  } else {
+    res.render("login.ejs");
+  }
+});
+app.post("/login", (req, res) => {
   // Recieve data
   //Compare credentials with what is in the database
   //if the password math --- create a session
-  res.render("login.ejs");
+  console.log(req.body);
+  const loginStatement = `SELECT email, fullname ,password FROM users WHERE email = '${req.body.email}'`;
+  myConnection.query(loginStatement, (sqlErr, userData) => {
+    if (sqlErr) {
+      console.log(sqlErr.message);
+      res.status(500).render("login.ejs", {
+        message: "Server Error :Contact Admin if this persists",
+      });
+    } else {
+      console.log(userData);
+      //checks if passwords match
+      if (userData.length == 0) {
+        res
+          .status(401)
+          .render("login.ejs", { message: "email or password is invalid" });
+      } else {
+        if (bcrypt.compareSync(req.body.password, userData[0].password)) {
+          //create a seesion
+          res.cookie("user", userData[0]);
+          // res.cookie("email", userData[0].email, { maxAge: 60 });
+          //redirect this person to the home page
+          res.redirect("/");
+        } else {
+          res
+            .status(401)
+            .render("login.ejs", { message: "email or password is invalid" });
+        }
+      }
+    }
+  });
+  // res.redirect("/");
 });
 app.get("/Signup", (req, res) => {
   //Recieve data from the client or the frontend
@@ -76,14 +142,22 @@ app.post("/signup", (req, res) => {
     myConnection.query(sqlStatement, (err, results) => {
       // Use consistent error variable naming
       if (err) {
-        console.error(err.message); /// Log detailed error information for debugging
-        res.status(500).send("Internal Server Error"); // Send a descriptive error status code
+        // console.error(err.message); /// Log detailed error information for debugging
+        res.status(500).render("signup.ejs", {
+          error: true,
+          errMessage: "Server Error :Contact Admin",
+          prevInput: req.body,
+        }); // Send a descriptive error status code
       } else {
-        res.status(201).send("SignUp Success"); // Indicate success with appropriate status code
+        res.status(304).redirect("/login?signupSuccess=true"); // Indicate success with appropriate status code
       }
     });
   } else {
-    res.send("passwords dont match");
+    res.render("signup.ejs", {
+      error: true,
+      errMessage: "password and confirm password do not match",
+      prevInput: req.body,
+    });
   }
 });
 app.get("/About", (req, res) => {
@@ -119,3 +193,5 @@ app.listen(5000, () => {
 //Installing for hashing the passwords
 //Different types of Encrytion
 //Async or await callbacks happen when there are too many callbacks
+// Check on the login and the seesions (cooie id ) the module is not found. How to check if the module has been installed
+//Introudction  of the parking management systems
